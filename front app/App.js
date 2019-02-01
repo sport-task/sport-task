@@ -1,35 +1,33 @@
 import React, { Component } from 'react';
-import { LayoutAnimation,  UIManager, View ,Image, Button } from 'react-native';
-import { Container, Header, Content, Card, CardItem, Thumbnail, Text , Left, Body, Right , Icon } from 'native-base';
+import { LayoutAnimation, UIManager, View, Image, Button } from 'react-native';
+import { Container, Header, Content, Card, CardItem, Thumbnail, Text, Left, Body, Right, Icon } from 'native-base';
 
 
 
 
 export default class App extends Component {
-  state = { rtl: false,
-  arr : []
- };
-  
+  state = {
+    rtl: false,
+    arr: []
+  };
+
   componentWillMount() {
     if (UIManager.setLayoutAnimationEnabledExperimental)
       UIManager.setLayoutAnimationEnabledExperimental(true);
-     
-      return fetch('https://serverrrrrrr.herokuapp.com/sport')
+
+    return fetch('https://serverrrrrrr.herokuapp.com/sport')//git the data using the api 
       .then((response) => response.json())
       .then((responseJson) => {
-        console.log(responseJson)
-        this.setState({arr :responseJson },
-         function(){
-console.log( "statt" ,this.state.arr[1].title)
-        });
-
+        this.setState({ arr: responseJson },//save the feed in the state
+          function () {
+          });
       })
-      .catch((error) =>{
+      .catch((error) => {
         console.error(error);
       });
-    
+
   }
-  
+
   componentWillUpdate() {
     LayoutAnimation.spring();
   }
@@ -37,56 +35,41 @@ console.log( "statt" ,this.state.arr[1].title)
 
 
   render() {
-    const rtlText = this.state.rtl && { textAlign: 'right', writingDirection: 'rtl' };
-    const rtlView = this.state.rtl && { flexDirection: 'row-reverse' };
+    const rtlText = this.state.rtl && { textAlign: 'right', writingDirection: 'rtl'}; //style for text // will chang if arabic or english
+    const rtlView = this.state.rtl && { flexDirection: 'row-reverse' }; //text for ather eliments // will chang if arabic or english
     
     return (
-      
-       
-       <Container>
+       <Container >
         <Header />
         <Button
           color="#444"
           onPress={() => this.setState({ rtl: !this.state.rtl })}
-          title={this.state.rtl ? 'English' : 'العربية'}
+          title={this.state.rtl ? 'English' : 'العربية'} 
         />
-        <Content  >
-        {this.state.arr.map( (feed) => (
-
-
-<Card key={feed._id}>
-            <CardItem style={rtlView}>
-             
-                <Thumbnail source={{uri: 'https://i.pinimg.com/originals/f6/5c/4d/f65c4d2223276318c21cd2048d3ef2bb.jpg'}} />
+        <Content >
+        {this.state.arr.map( (feed) => (//map on the arr of news return card for each feed
+            <Card key={feed._id}>
+            <CardItem  style={rtlView}>
+                <Thumbnail source={{uri: feed.image_url}} />
                 <Body>
-                  <Text> {
+                  <Text  > {
                    rtlText? feed.title : feed.title_ar
-                  }</Text>
-                  <Text  note>{ feed.created_at }</Text>
+                  }</Text >
+                  <Text note>{ feed.created_at }</Text>
                 </Body>
-            
             </CardItem>
-            <CardItem style={rtlView}>
+            <CardItem  style={rtlView}>
               <Body>
                 <Text>
-                  {
-                   rtlText? feed.subtitle : feed.subtitle_ar
-                  }
+                  {rtlText? feed.subtitle : feed.subtitle_ar}
                 </Text>
               </Body>
             </CardItem>
-          </Card>
-            
-        )
-
-          )}
-         
+          </Card> 
+           )
+        )}
         </Content>
-     
       </Container>
-  
-        
-    
     );
   }
 }
