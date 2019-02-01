@@ -1,0 +1,16 @@
+{
+  "name": "z",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server-dev": "nodemon server/index.js",
+    "start": "node server/index.js "
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.0",
+    "mongoose": "^4.8.6",
+    "nodemon": "^1.18.9"
+  }
+}
